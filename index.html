@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Visaclicker</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: Arial, sans-serif;
+            color: white;
+        }
+        
+        .container {
+            max-width: 400px;
+            margin: 0 auto;
+            background: rgba(255,255,255,0.1);
+            padding: 20px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .stats {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        
+        #figure {
+            width: 200px;
+            height: 200px;
+            margin: 20px auto;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: bold;
+            user-select: none;
+        }
+        
+        .circle { background: #ff4757; border-radius: 50%; }
+        .square { background: #2ed573; }
+        .triangle { 
+            width: 0; height: 0; 
+            border-left: 100px solid transparent;
+            border-right: 100px solid transparent;
+            border-bottom: 200px solid #3742fa;
+            background: transparent !important;
+        }
+        
+        .controls {
+            margin-top: 30px;
+            display: flex;
+            gap: 10px;
+        }
+        
+        button {
+            flex: 1;
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            background: #fff;
+            color: #333;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        
+        .gift {
+            position: fixed;
+            width: 50px;
+            height: 50px;
+            background: gold;
+            border-radius: 10px;
+            animation: float 2s infinite;
+            cursor: pointer;
+            display: none;
+            font-size: 30px;
+            text-align: center;
+            line-height: 50px;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="stats">
+            <div>VISA: <span id="visa">63</span></div>
+            <div>Уровень: <span id="level">1</span></div>
+        </div>
+        
+        <div id="figure" class="circle" onclick="clickFigure()">
+            КЛИКАЙ!
+        </div>
+        
+        <div class="controls">
+            <button onclick="openMenu()">Меню</button>
+            <button onclick="openInventory()">Инвентарь</button>
+            <button onclick="exitGame()">Выход</button>
+        </div>
+    </div>
+    
+    <div id="gift" class="gift" onclick="collectGift()">🎁</div>
+    
+    <script>
+        let visa = 63;
+        let level = 1;
+        let gifts = 0;
+        let figures = ['circle', 'square', 'triangle'];
+        
+        function clickFigure() {
+            visa += 5;
+            level++;
+            
+            document.getElementById('visa').textContent = visa;
+            document.getElementById('level').textContent = level;
+            
+            // Анимация клика
+            const figure = document.getElementById('figure');
+            figure.style.transform = 'scale(0.9)';
+            setTimeout(() => figure.style.transform = 'scale(1)', 100);
+            
+            // Рандомный подарок (5% шанс)
+            if (Math.random() < 0.05) {
+                showGift();
+            }
+            
+            // Меняем фигуру
+            setTimeout(changeFigure, 100);
+        }
+        
+        function changeFigure() {
+            const figure = document.getElementById('figure');
+            const randomFig = figures[Math.floor(Math.random() * figures.length)];
+            
+            figure.className = '';
+            figure.classList.add(randomFig);
+        }
+        
+        function showGift() {
+            const gift = document.getElementById('gift');
+            gift.style.display = 'block';
+            gift.style.left = Math.random() * 80 + 10 + '%';
+            gift.style.top = Math.random() * 50 + 20 + '%';
+            
+            setTimeout(() => {
+                gift.style.display = 'none';
+            }, 5000);
+        }
+        
+        function collectGift() {
+            gifts++;
+            document.getElementById('gift').style.display = 'none';
+            alert(`🎁 Получен подарок! Всего подарков: ${gifts}`);
+        }
+        
+        function openMenu() {
+            alert('Меню улучшений (в разработке)');
+        }
+        
+        function openInventory() {
+            alert(`Инвентарь: 🎁 ${gifts} подарков`);
+        }
+        
+        function exitGame() {
+            if (confirm('Выйти из игры?')) {
+                // Если в Telegram
+                if (typeof Telegram !== 'undefined' && Telegram.WebApp) {
+                    Telegram.WebApp.close();
+                } else {
+                    alert('Игра закрывается');
+                }
+            }
+        }
+        
+        // Автосмена фигур каждые 2 секунды
+        setInterval(changeFigure, 2000);
+        
+        // Интеграция с Telegram
+        if (typeof Telegram !== 'undefined' && Telegram.WebApp) {
+            Telegram.WebApp.ready();
+            Telegram.WebApp.expand();
+        }
+    </script>
+</body>
+</html>
