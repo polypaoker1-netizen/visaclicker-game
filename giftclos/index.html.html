@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clicker Game</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+</head>
+<body>
+    <div class="container">
+        <!-- Верхняя панель с информацией -->
+        <div class="top-bar">
+            <div class="stats">
+                <div class="visa">VISA: <span id="visa">63</span></div>
+                <div class="level">Ур. МЕНЮ Клики: <span id="level">30</span></div>
+            </div>
+            <div class="multipliers">
+                <div>Сила клика: <span id="click-power">x4</span></div>
+                <div>Множитель: <span id="multiplier">x1</span></div>
+                <div>Автокликеров: <span id="autoclickers">0</span></div>
+            </div>
+        </div>
+
+        <!-- Игровая область -->
+        <div class="game-area">
+            <div id="figure-container">
+                <div id="figure" class="circle"></div>
+            </div>
+            <!-- Область для подарков -->
+            <div id="gifts-area"></div>
+        </div>
+
+        <!-- Кнопка выхода -->
+        <button id="exit-btn" class="exit-btn">Выход</button>
+
+        <!-- Нижнее меню -->
+        <div class="bottom-menu">
+            <button id="menu-btn">Меню</button>
+            <button id="inventory-btn">Инвентарь</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

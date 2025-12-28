@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Меню</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        .upgrades {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .upgrade-item {
+            background: #f0f0f0;
+            padding: 15px;
+            border-radius: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .upgrade-btn {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        
+        .upgrade-btn:disabled {
+            background: #cccccc;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="upgrades">
+            <h2>🛒 Улучшения</h2>
+            
+            <div class="upgrade-item">
+                <div>
+                    <h3>Усилитель клика</h3>
+                    <p>Увеличивает силу клика</p>
+                </div>
+                <button id="upgrade-click" class="upgrade-btn">100 VISA</button>
+            </div>
+            
+            <div class="upgrade-item">
+                <div>
+                    <h3>Множитель очков</h3>
+                    <p>Увеличивает множитель очков</p>
+                </div>
+                <button id="upgrade-multiplier" class="upgrade-btn">500 VISA</button>
+            </div>
+            
+            <div class="upgrade-item">
+                <div>
+                    <h3>Автокликер</h3>
+                    <p>Автоматически кликает раз в секунду</p>
+                </div>
+                <button id="upgrade-autoclicker" class="upgrade-btn">1000 VISA</button>
+            </div>
+        </div>
+        
+        <button id="back-btn" class="back-btn">Назад в игру</button>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Загрузка данных игры
+            const gameData = JSON.parse(localStorage.getItem('clickerGameData') || '{"visa":63}');
+            
+            // Обновление кнопок улучшений
+            document.getElementById('upgrade-click').addEventListener('click', () => {
+                if (gameData.visa >= 100) {
+                    gameData.visa -= 100;
+                    localStorage.setItem('clickerGameData', JSON.stringify(gameData));
+                    alert('Усилитель клика куплен!');
+                    Telegram.WebApp.openLink('index.html');
+                } else {
+                    alert('Недостаточно VISA!');
+                }
+            });
+            
+            // Аналогично для других улучшений...
+            
+            document.getElementById('back-btn').addEventListener('click', () => {
+                Telegram.WebApp.openLink('index.html');
+            });
+        });
+    </script>
+</body>
+</html>

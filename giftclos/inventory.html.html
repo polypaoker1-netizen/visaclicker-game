@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Инвентарь</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        .inventory-container {
+            padding: 20px;
+        }
+        
+        .inventory-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .inventory-item {
+            background: #f0f0f0;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            cursor: pointer;
+        }
+        
+        .inventory-item img {
+            width: 50px;
+            height: 50px;
+            margin-bottom: 10px;
+        }
+        
+        .back-btn {
+            width: 100%;
+            padding: 15px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="inventory-container">
+            <h2>🎒 Инвентарь</h2>
+            <div id="inventory-grid" class="inventory-grid">
+                <!-- Подарки будут загружаться через JS -->
+            </div>
+            <button id="back-btn" class="back-btn">Назад в игру</button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Загрузка инвентаря из localStorage или основной игры
+            const inventory = JSON.parse(localStorage.getItem('clickerInventory') || '[]');
+            const grid = document.getElementById('inventory-grid');
+            
+            if (inventory.length === 0) {
+                grid.innerHTML = '<p>Инвентарь пуст</p>';
+            } else {
+                inventory.forEach((item, index) => {
+                    const itemElement = document.createElement('div');
+                    itemElement.className = 'inventory-item';
+                    itemElement.innerHTML = `
+                        <img src="assets/gifts/${item}" alt="Подарок">
+                        <div>Подарок ${index + 1}</div>
+                    `;
+                    grid.appendChild(itemElement);
+                });
+            }
+            
+            document.getElementById('back-btn').addEventListener('click', () => {
+                Telegram.WebApp.openLink('index.html');
+            });
+        });
+    </script>
+</body>
+</html>
